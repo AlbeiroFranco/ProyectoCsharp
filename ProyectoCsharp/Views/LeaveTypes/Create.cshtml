@@ -1,16 +1,17 @@
-﻿@model ProyectoCsharp.Data.LeaveType
+﻿@model LeaveTypeVM
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Create leave type</h1>
 
-<h4>LeaveType</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
+            
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -22,24 +23,12 @@
                 <input asp-for="Days" class="form-control" />
                 <span asp-validation-for="Days" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateModified" class="control-label"></label>
-                <input asp-for="DateModified" class="form-control" />
-                <span asp-validation-for="DateModified" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div>
+                <a asp-action="Index" class="btn btn-dark mt-2">Back to List</a> &nbsp;
+                <input type="submit" value="Create" class="btn btn-primary mt-2"/>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
