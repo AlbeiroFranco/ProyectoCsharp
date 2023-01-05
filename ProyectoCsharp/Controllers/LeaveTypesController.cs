@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoCsharp.Data;
+using ProyectoCsharp.Data.Migrations;
 using ProyectoCsharp.Models;
 
 namespace ProyectoCsharp.Controllers
@@ -32,19 +33,18 @@ namespace ProyectoCsharp.Controllers
         // GET: LeaveTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.LeaveTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var leaveType = await _context.LeaveTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var leaveType = await _context.LeaveTypes.FindAsync(id);
             if (leaveType == null)
             {
                 return NotFound();
             }
-
-            return View(leaveType);
+            var leaveTypeVM = _mapper.Map<LeaveTypeVM>(leaveType);
+            return View(leaveTypeVM);
         }
 
         // GET: LeaveTypes/Create
@@ -73,7 +73,7 @@ namespace ProyectoCsharp.Controllers
         // GET: LeaveTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.LeaveTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -83,7 +83,8 @@ namespace ProyectoCsharp.Controllers
             {
                 return NotFound();
             }
-            return View(leaveType);
+            var leaveTypeVM = _mapper.Map<LeaveTypeVM>(leaveType);
+            return View(leaveTypeVM);
         }
 
         // POST: LeaveTypes/Edit/5
@@ -91,9 +92,9 @@ namespace ProyectoCsharp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Days,Id,DateCreated,DateModified")] LeaveType leaveType)
+        public async Task<IActionResult> Edit(int id, LeaveTypeVM leaveTypeVM)
         {
-            if (id != leaveType.Id)
+            if (id != leaveTypeVM.Id)
             {
                 return NotFound();
             }
@@ -102,12 +103,13 @@ namespace ProyectoCsharp.Controllers
             {
                 try
                 {
+                    var leaveType = _mapper.Map<LeaveType>(leaveTypeVM);
                     _context.Update(leaveType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaveTypeExists(leaveType.Id))
+                    if (!LeaveTypeExists(leaveTypeVM.Id))
                     {
                         return NotFound();
                     }
@@ -118,13 +120,13 @@ namespace ProyectoCsharp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(leaveType);
+            return View(leaveTypeVM);
         }
 
         // GET: LeaveTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.LeaveTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -144,16 +146,8 @@ namespace ProyectoCsharp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.LeaveTypes == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.LeaveTypes'  is null.");
-            }
             var leaveType = await _context.LeaveTypes.FindAsync(id);
-            if (leaveType != null)
-            {
-                _context.LeaveTypes.Remove(leaveType);
-            }
-            
+            _context.LeaveTypes.Remove(leaveType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
