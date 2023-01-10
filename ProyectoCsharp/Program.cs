@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ProyectoCsharp.Data;
-using AutoMapper;
 using ProyectoCsharp.Configurations;
+using ProyectoCsharp.Contracts;
+using ProyectoCsharp.Data;
+using ProyectoCsharp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<Empleado>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 

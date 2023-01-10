@@ -6,8 +6,7 @@ namespace ProyectoCsharp.Data
 {
     public class ApplicationDbContext : IdentityDbContext<Empleado>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
