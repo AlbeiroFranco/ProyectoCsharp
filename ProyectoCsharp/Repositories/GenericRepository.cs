@@ -2,11 +2,12 @@
 using ProyectoCsharp.Contracts;
 using ProyectoCsharp.Data;
 
+
 namespace ProyectoCsharp.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public GenericRepository(ApplicationDbContext context)
         {
@@ -43,7 +44,7 @@ namespace ProyectoCsharp.Repositories
             {
                 return null;
             } 
-            return await _context.Set<T>().FindAsync(id);
+            return await _context.Set<T?>().FindAsync(id);
         }
 
         public async Task UpdateAsync(T entity)

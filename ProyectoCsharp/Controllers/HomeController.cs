@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoCsharp.Models;
 using System.Diagnostics;
 
@@ -17,7 +18,6 @@ namespace ProyectoCsharp.Controllers
         {
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();

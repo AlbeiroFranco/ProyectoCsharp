@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ProyectoCsharp.Constants;
 using ProyectoCsharp.Contracts;
 using ProyectoCsharp.Data;
-using ProyectoCsharp.Data.Migrations;
 using ProyectoCsharp.Models;
-using ProyectoCsharp.Repositories;
 
 namespace ProyectoCsharp.Controllers
 {
+    [Authorize]
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
@@ -46,6 +42,7 @@ namespace ProyectoCsharp.Controllers
         }
 
         // GET: LeaveTypes/Create
+        [Authorize(Roles = Roles.Administrator)]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +53,7 @@ namespace ProyectoCsharp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Create(LeaveTypeVM leaveTypeVM)
         {
             if (ModelState.IsValid)
@@ -68,6 +66,7 @@ namespace ProyectoCsharp.Controllers
         }
 
         // GET: LeaveTypes/Edit/5
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Edit(int? id)
         {
             var leaveType = await _leaveTypeRepository.GetAsync(id);
@@ -85,6 +84,7 @@ namespace ProyectoCsharp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> Edit(int id, LeaveTypeVM leaveTypeVM)
         {
             if (id != leaveTypeVM.Id)
@@ -118,6 +118,7 @@ namespace ProyectoCsharp.Controllers
         // POST: LeaveTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             

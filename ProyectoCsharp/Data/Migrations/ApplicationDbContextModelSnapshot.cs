@@ -17,7 +17,7 @@ namespace ProyectoCsharp.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -47,6 +47,22 @@ namespace ProyectoCsharp.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "408aa945-3d84-4421-8342-7269ec64d949",
+                            ConcurrencyStamp = "6d5de9d5-267e-4f4f-9e23-24d4ea83369c",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "3f4631bd-f907-4409-b416-ba356312e659",
+                            ConcurrencyStamp = "9b196ed5-3d69-46bc-8fee-178f249d8fa1",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -136,6 +152,18 @@ namespace ProyectoCsharp.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8851a296-6b9b-481c-a00e-17f5a5b0bf00",
+                            RoleId = "408aa945-3d84-4421-8342-7269ec64d949"
+                        },
+                        new
+                        {
+                            UserId = "ed55405b-f95f-472b-b881-2bcf426aca7d",
+                            RoleId = "3f4631bd-f907-4409-b416-ba356312e659"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -185,11 +213,9 @@ namespace ProyectoCsharp.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -219,7 +245,6 @@ namespace ProyectoCsharp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxtId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -240,6 +265,48 @@ namespace ProyectoCsharp.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8851a296-6b9b-481c-a00e-17f5a5b0bf00",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3983dd2b-c46c-49b8-9cf1-a926a4dc8730",
+                            DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "jose@test.com",
+                            EmailConfirmed = true,
+                            FirstName = "System",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JOSE@TEST.COM",
+                            NormalizedUserName = "JOSE@TEST.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECEYEjM3CdovatML08OEPtEY2VSdk17826TOeTpIXOnRMEUUXx+92ZSmvKUKH5w9qw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f6a6838d-39bc-404c-9ecf-94fdf9dc1067",
+                            TwoFactorEnabled = false,
+                            UserName = "jose@test.com"
+                        },
+                        new
+                        {
+                            Id = "ed55405b-f95f-472b-b881-2bcf426aca7d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4c4d205c-dcc2-4a48-b15e-5d25347eb3b5",
+                            DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user@test.com",
+                            EmailConfirmed = true,
+                            FirstName = "System",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER@TEST.COM",
+                            NormalizedUserName = "USER@TEST.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHM6iBe+Ldw8muOZ3bpPnfCfQwGNhmfMFDBFZR5qHV9EikQv68EZymgjrfNsYEWfzw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fe6d8486-6ecc-45e4-be79-bde6bdb520dc",
+                            TwoFactorEnabled = false,
+                            UserName = "user@test.com"
+                        });
                 });
 
             modelBuilder.Entity("ProyectoCsharp.Data.LeaveAllocation", b =>
@@ -255,6 +322,10 @@ namespace ProyectoCsharp.Data.Migrations
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
