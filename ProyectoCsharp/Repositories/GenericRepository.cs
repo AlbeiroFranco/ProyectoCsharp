@@ -19,6 +19,11 @@ namespace ProyectoCsharp.Repositories
             await _context.AddAsync(entity);
             return entity;
         }
+        public async Task AddRangeAsync(List<T> entities)
+        {
+            await _context.AddRangeAsync(entities);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task DeleteAsync(int id)
         {
@@ -38,13 +43,13 @@ namespace ProyectoCsharp.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetAsync(int? id)
+        public async Task<T?> GetAsync(int? id)
         {
             if (id == null)
             {
                 return null;
             } 
-            return await _context.Set<T?>().FindAsync(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
         public async Task UpdateAsync(T entity)

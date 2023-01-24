@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProyectoCsharp.Configurations.Entities;
-using System.Collections.Generic;
 
 namespace ProyectoCsharp.Data
 {
@@ -21,7 +20,5 @@ namespace ProyectoCsharp.Data
 
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocation { get; set; }
-
-
     }
 }

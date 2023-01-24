@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoCsharp.Data;
 
@@ -11,9 +12,10 @@ using ProyectoCsharp.Data;
 namespace ProyectoCsharp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230119162828_Add period")]
+    partial class Addperiod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +54,14 @@ namespace ProyectoCsharp.Data.Migrations
                         new
                         {
                             Id = "408aa945-3d84-4421-8342-7269ec64d949",
-                            ConcurrencyStamp = "1fb95c4a-eec6-423a-85b0-9fbab864a9f3",
+                            ConcurrencyStamp = "655404d6-f984-4ef6-8b5b-fbac61e8df39",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "3f4631bd-f907-4409-b416-ba356312e659",
-                            ConcurrencyStamp = "8d5b197d-dba6-4d78-be88-bb0ae2b1ef2f",
+                            ConcurrencyStamp = "e854e255-0571-4704-bf2b-78c6af6031de",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -271,7 +273,7 @@ namespace ProyectoCsharp.Data.Migrations
                         {
                             Id = "8851a296-6b9b-481c-a00e-17f5a5b0bf00",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cc038e2e-fb32-4489-a270-ade214996b72",
+                            ConcurrencyStamp = "2a449c5d-0dcc-4686-8b26-e4719250c595",
                             DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jose@test.com",
@@ -281,9 +283,9 @@ namespace ProyectoCsharp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOSE@TEST.COM",
                             NormalizedUserName = "JOSE@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAWuLQJ5uYMdscpwqCFK4bnDvikwnolLbI5mQc5sFw5AlK89y5HumfZ9pioC9teynQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPv1tn5Rtq9drlSLCSaewYwOzmU3d4e5HTLX+PcRCIrfULtWunbtCNBW2FcmJ9onvw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "13a616d4-2503-4e56-a09a-f2efa71cbb80",
+                            SecurityStamp = "ef819aaf-c72b-4d70-9272-b595a3aa136d",
                             TwoFactorEnabled = false,
                             UserName = "jose@test.com"
                         },
@@ -291,7 +293,7 @@ namespace ProyectoCsharp.Data.Migrations
                         {
                             Id = "ed55405b-f95f-472b-b881-2bcf426aca7d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "da03604e-04c3-4f5b-bccf-4489f26d9578",
+                            ConcurrencyStamp = "1b018b2c-5751-43a2-aebc-da72a27c3192",
                             DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@test.com",
@@ -301,9 +303,9 @@ namespace ProyectoCsharp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@TEST.COM",
                             NormalizedUserName = "USER@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMAbHFycL3j4nu0e11ckR16qDmkbn9FT8KstsFhftsiC4PzYQBQjanPDU1zcp5/vTA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH2p//vkwgyDmMiAFfwO7+9tXx8dAP7lQQI9qlkeFf1jSnI9ccVfB3vaileNW39CNg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "865af67a-0247-4b11-b782-40602074ff12",
+                            SecurityStamp = "6da060e4-d7b8-4371-9e24-9bd9acf3f753",
                             TwoFactorEnabled = false,
                             UserName = "user@test.com"
                         });
