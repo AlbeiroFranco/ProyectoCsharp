@@ -12,12 +12,12 @@ namespace ProyectoCsharp.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly UserManager<Empleado> _userManager;
+        private readonly UserManager<Employee> _userManager;
         private readonly IMapper _mapper;
         private readonly ILeaveAllocationRepository _leaveAllocationRepository;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public EmployeesController(UserManager<Empleado> userManager,
+        public EmployeesController(UserManager<Employee> userManager,
             IMapper mapper,
             ILeaveAllocationRepository leaveAllocationRepository,
             ILeaveTypeRepository leaveTypeRepository
@@ -68,7 +68,7 @@ namespace ProyectoCsharp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _leaveAllocationRepository.UpdateEmployeeAllocation(model) == true)
+                    if (await _leaveAllocationRepository.UpdateEmployeeAllocation(model))
                         return RedirectToAction(nameof(ViewAllocations), new { id = model.EmployeeId });
                 }
 

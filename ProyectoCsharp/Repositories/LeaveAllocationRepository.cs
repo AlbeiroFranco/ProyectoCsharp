@@ -11,12 +11,12 @@ namespace ProyectoCsharp.Repositories
     public class LeaveAllocationRepository : GenericRepository<LeaveAllocation>, ILeaveAllocationRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<Empleado> _userManager;
+        private readonly UserManager<Employee> _userManager;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
 
         public LeaveAllocationRepository(ApplicationDbContext context,
-            UserManager<Empleado> userManager, 
+            UserManager<Employee> userManager, 
             ILeaveTypeRepository leaveTypeRepository,
             IMapper mapper) : base(context)
             

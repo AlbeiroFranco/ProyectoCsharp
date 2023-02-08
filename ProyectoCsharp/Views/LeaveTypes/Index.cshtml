@@ -56,14 +56,32 @@
     <input type="hidden" id="leaveTypeId" name="Id" />
 </form>
 
-<form id="AllocateForm" asp-action="AllocateLeave">
-    <input type="hidden" id="leaveTypeAllocationId" name="Id" />
+<form id="AllocationForm" asp-action="AllocateLeave">
+    <input type="hidden" id="leaveTypeIdAllocate" name="Id" />
 </form>
 
 @section Scripts{
     <script>
         $(function () {
 
+            $('.table').DataTable();
+
+            $('.deleteBtn').click(function (e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to delete this record?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm) => {
+                    if (confirm) {
+                        var btn = $(this);
+                        var id = btn.data("id");
+                        $('#leaveTypeId').val(id);
+                        $('#deleteFrom').submit();
+                    }
+                });
+            })
             
 
             $('.deleteBtn').click(function (e) {

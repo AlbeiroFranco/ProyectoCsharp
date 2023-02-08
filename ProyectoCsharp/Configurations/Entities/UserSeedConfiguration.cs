@@ -5,13 +5,13 @@ using ProyectoCsharp.Data;
 
 namespace ProyectoCsharp.Configurations.Entities
 {
-    public class UserSeedConfiguration : IEntityTypeConfiguration<Empleado>
+    public class UserSeedConfiguration : IEntityTypeConfiguration<Employee>
     {
-        public void Configure(EntityTypeBuilder<Empleado> builder)
+        public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            var hasher = new PasswordHasher<Empleado>();
+            var hasher = new PasswordHasher<Employee>();
             builder.HasData(
-                new Empleado
+                new Employee
                 {
                     Id = "8851a296-6b9b-481c-a00e-17f5a5b0bf00",
                     Email = "jose@test.com",
@@ -23,7 +23,7 @@ namespace ProyectoCsharp.Configurations.Entities
                     PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                     EmailConfirmed = true,
                 },
-                new Empleado
+                new Employee
                 {
                     Id = "ed55405b-f95f-472b-b881-2bcf426aca7d",
                     Email = "user@test.com",

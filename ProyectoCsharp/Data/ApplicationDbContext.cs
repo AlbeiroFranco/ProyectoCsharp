@@ -4,7 +4,7 @@ using ProyectoCsharp.Configurations.Entities;
 
 namespace ProyectoCsharp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Empleado>
+    public class ApplicationDbContext : IdentityDbContext<Employee>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -20,7 +20,6 @@ namespace ProyectoCsharp.Data
 
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocation { get; set; }
-
         public DbSet<LeaveRequest> LeaveRequests { get; set; }   
     }
 }

@@ -52,14 +52,14 @@ namespace ProyectoCsharp.Data.Migrations
                         new
                         {
                             Id = "408aa945-3d84-4421-8342-7269ec64d949",
-                            ConcurrencyStamp = "f3550d25-24c5-4a3d-89a3-c5bab608f4a2",
+                            ConcurrencyStamp = "aeb7d61d-0ec8-4116-a001-089ce5042386",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "3f4631bd-f907-4409-b416-ba356312e659",
-                            ConcurrencyStamp = "dcabb6a0-8c57-4fbf-90b6-b522b9b68d06",
+                            ConcurrencyStamp = "6c955fb2-5459-46fd-a6cc-05d964966d5b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -187,7 +187,7 @@ namespace ProyectoCsharp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProyectoCsharp.Data.Empleado", b =>
+            modelBuilder.Entity("ProyectoCsharp.Data.Employee", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -271,7 +271,7 @@ namespace ProyectoCsharp.Data.Migrations
                         {
                             Id = "8851a296-6b9b-481c-a00e-17f5a5b0bf00",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e55293ed-4825-4ae9-9fb9-fe65fcc6431d",
+                            ConcurrencyStamp = "e50e046e-d2b9-46fd-b8ce-8d1e03cd1f98",
                             DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jose@test.com",
@@ -281,9 +281,9 @@ namespace ProyectoCsharp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JOSE@TEST.COM",
                             NormalizedUserName = "JOSE@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIQPSSc9JIGGyNCqXPwAke5lxiEhmVKMpBpMdwxLUKX8IfmMVrxx7MyXLPvrmQAvJw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFdZs3a1oNEpKr72P+LBGBl/vp0yMb+oILkjUwrMTdj6eI9TFtNXjOpAoZrKXNxXdQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2650eee3-8b4f-4492-90df-c66d205a5775",
+                            SecurityStamp = "01bfbafd-8f98-4a06-9216-db8f105f9cb7",
                             TwoFactorEnabled = false,
                             UserName = "jose@test.com"
                         },
@@ -291,7 +291,7 @@ namespace ProyectoCsharp.Data.Migrations
                         {
                             Id = "ed55405b-f95f-472b-b881-2bcf426aca7d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c63afbba-8c2d-4d14-9624-a9c72f910c38",
+                            ConcurrencyStamp = "1179b8d6-4475-4b90-8173-df32d537d080",
                             DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@test.com",
@@ -301,9 +301,9 @@ namespace ProyectoCsharp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@TEST.COM",
                             NormalizedUserName = "USER@TEST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFtPjI08OI/qkifRxtraDVDfTxCDM84pQVyltytfAJ51fEGQLvMELdnGLbp8ji0XpQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEdttaz2FdSLKUg4usmvlIkFb8xM06g5AnUNQmpYi8yWCqOO6ixXPuorGkAcVoNX1w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "66a49909-ee95-4175-b44f-9b5f954f9147",
+                            SecurityStamp = "bcfd2579-3d1f-4536-bf4d-5fb591634bb0",
                             TwoFactorEnabled = false,
                             UserName = "user@test.com"
                         });
@@ -373,7 +373,6 @@ namespace ProyectoCsharp.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RequestComments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestingEmployeeId")
@@ -427,7 +426,7 @@ namespace ProyectoCsharp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ProyectoCsharp.Data.Empleado", null)
+                    b.HasOne("ProyectoCsharp.Data.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -436,7 +435,7 @@ namespace ProyectoCsharp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ProyectoCsharp.Data.Empleado", null)
+                    b.HasOne("ProyectoCsharp.Data.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -451,7 +450,7 @@ namespace ProyectoCsharp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoCsharp.Data.Empleado", null)
+                    b.HasOne("ProyectoCsharp.Data.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,7 +459,7 @@ namespace ProyectoCsharp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ProyectoCsharp.Data.Empleado", null)
+                    b.HasOne("ProyectoCsharp.Data.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -25,17 +25,17 @@ namespace ProyectoCsharp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Empleado> _signInManager;
-        private readonly UserManager<Empleado> _userManager;
-        private readonly IUserStore<Empleado> _userStore;
-        private readonly IUserEmailStore<Empleado> _emailStore;
+        private readonly SignInManager<Employee> _signInManager;
+        private readonly UserManager<Employee> _userManager;
+        private readonly IUserStore<Employee> _userStore;
+        private readonly IUserEmailStore<Employee> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<Empleado> userManager,
-            IUserStore<Empleado> userStore,
-            SignInManager<Empleado> signInManager,
+            UserManager<Employee> userManager,
+            IUserStore<Employee> userStore,
+            SignInManager<Employee> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -176,27 +176,27 @@ namespace ProyectoCsharp.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private Empleado CreateUser()
+        private Employee CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<Empleado>();
+                return Activator.CreateInstance<Employee>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Empleado)}'. " +
-                    $"Ensure that '{nameof(Empleado)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Employee)}'. " +
+                    $"Ensure that '{nameof(Employee)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<Empleado> GetEmailStore()
+        private IUserEmailStore<Employee> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<Empleado>)_userStore;
+            return (IUserEmailStore<Employee>)_userStore;
         }
     }
 }

@@ -9,11 +9,14 @@ namespace ProyectoCsharp.Configurations
         public MapperConfig() 
         { 
             CreateMap<LeaveType, LeaveTypeVM>().ReverseMap();
-            CreateMap<Empleado, EmployeeListVM>().ReverseMap();
-            CreateMap<Empleado, EmployeeAllocationVM>().ReverseMap();
+            CreateMap<Employee, EmployeeListVM>().ReverseMap();
+            CreateMap<Employee, EmployeeAllocationVM>().ReverseMap();
             CreateMap<LeaveAllocation, LeaveAllocationVM>().ReverseMap();
             CreateMap<LeaveAllocation, EditLeaveAllocationVM>().ReverseMap();
+            CreateMap<LeaveRequest, LeaveRequestCreateVM>().ReverseMap();
+            
+
         }
-        
+
     }
 }
