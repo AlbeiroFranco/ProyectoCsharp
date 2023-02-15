@@ -15,8 +15,9 @@ namespace ProyectoCsharp.Repositories
         }  
         public async Task<T> AddAsync(T entity)
         {
-            await _context.SaveChangesAsync();
             await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            
             return entity;
         }
         public async Task AddRangeAsync(List<T> entities)

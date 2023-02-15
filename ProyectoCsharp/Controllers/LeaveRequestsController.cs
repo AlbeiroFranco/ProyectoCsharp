@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ProyectoCsharp.Constants;
 using ProyectoCsharp.Contracts;
 using ProyectoCsharp.Data;
 using ProyectoCsharp.Models;
@@ -21,11 +22,18 @@ namespace ProyectoCsharp.Controllers
             _leaveRequestRepository = leaveRequestRepository;
         }
 
+        [Authorize(Roles = Roles.Administrator)]
         // GET: LeaveRequests
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.LeaveRequests.Include(l => l.LeaveType);
-            return View(await applicationDbContext.ToListAsync());
+            var model = await _leaveRequestRepository.GetAdminLeaveRequestList();
+            return View(model);
+        }
+
+        public async Task<ActionResult> MyLeave()
+        {
+            var model = await _leaveRequestRepository.GetMyLeaveDetails(); 
+            return View(model);
         }
 
         // GET: LeaveRequests/Details/5
