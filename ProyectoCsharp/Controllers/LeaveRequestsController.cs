@@ -39,21 +39,48 @@ namespace ProyectoCsharp.Controllers
         // GET: LeaveRequests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.LeaveRequests == null)
+            var model = await _leaveRequestRepository.GetLeaveRequestAsync(id);
+            if (id == null)
             {
                 return NotFound();
             }
-
-            var leaveRequest = await _context.LeaveRequests
-                .Include(l => l.LeaveType)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (leaveRequest == null)
-            {
-                return NotFound();
-            }
-
-            return View(leaveRequest);
+            return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveRequest(int id, bool approved)
+        {
+            try
+            {
+                await _leaveRequestRepository.ChangeApprovalStatus(id, approved);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            try
+            {
+                await _leaveRequestRepository.CancelLeaveRequest(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(MyLeave));
+        }
+
 
         // GET: LeaveRequests/Create
         public IActionResult Create()
@@ -76,14 +103,18 @@ namespace ProyectoCsharp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _leaveRequestRepository.CreateLeaveRequest(model);
-                    return RedirectToAction(nameof(Index));
+                    var isValidRequest = await _leaveRequestRepository.CreateLeaveRequest(model);
+
+                    if (isValidRequest)
+                        return RedirectToAction(nameof(MyLeave));
+
+                    ModelState.AddModelError(string.Empty, "Youhave exceedded your alllocation with this request.");
                 }
             }
             catch (Exception ex)
             {
 
-                ModelState.AddModelError(string.Empty, "An error ocurred. Please try again later");
+                ModelState.AddModelError(string.Empty, "An error has ocurred. Please try again later");
             }
             
             model.LeaveTypes = new SelectList(_context.LeaveTypes, "Id", "Name", model.LeaveTypeId);

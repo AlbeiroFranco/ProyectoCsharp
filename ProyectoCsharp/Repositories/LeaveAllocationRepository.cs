@@ -16,10 +16,10 @@ namespace ProyectoCsharp.Repositories
         private readonly IMapper _mapper;
 
         public LeaveAllocationRepository(ApplicationDbContext context,
-            UserManager<Employee> userManager, 
+            UserManager<Employee> userManager,
             ILeaveTypeRepository leaveTypeRepository,
             IMapper mapper) : base(context)
-            
+
         {
             _context = context;
             _userManager = userManager;
@@ -36,10 +36,10 @@ namespace ProyectoCsharp.Repositories
 
         public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string employeeId)
         {
-            var allocations =  await _context.LeaveAllocation
+            var allocations = await _context.LeaveAllocation
                 .Include(q => q.LeaveType)
                 .Where(q => q.EmployeeId == employeeId).ToListAsync();
-                
+
             var employee = await _userManager.FindByIdAsync(employeeId);
 
             var employeeAllocationModel = _mapper.Map<EmployeeAllocationVM>(employee);
@@ -103,6 +103,11 @@ namespace ProyectoCsharp.Repositories
             await UpdateAsync(leaveAllocation);
 
             return true;
+        }
+
+        public async Task<LeaveAllocation?> GetEmployeeAllocation(string employeeId, int leaveTypeId)
+        {
+            return await _context.LeaveAllocation.FirstOrDefaultAsync(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId);
         }
     }
 }
