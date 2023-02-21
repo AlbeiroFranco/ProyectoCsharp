@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProyectoCsharp.Constants;
@@ -13,17 +14,20 @@ namespace ProyectoCsharp.Repositories
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Employee> _userManager;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly AutoMapper.IConfigurationProvider _configurationProvider;
         private readonly IMapper _mapper;
 
         public LeaveAllocationRepository(ApplicationDbContext context,
             UserManager<Employee> userManager,
             ILeaveTypeRepository leaveTypeRepository,
+            AutoMapper.IConfigurationProvider configurationProvider,
             IMapper mapper) : base(context)
 
         {
             _context = context;
             _userManager = userManager;
             _leaveTypeRepository = leaveTypeRepository;
+            _configurationProvider = configurationProvider;
             _mapper = mapper;
         }
 
@@ -38,12 +42,14 @@ namespace ProyectoCsharp.Repositories
         {
             var allocations = await _context.LeaveAllocation
                 .Include(q => q.LeaveType)
-                .Where(q => q.EmployeeId == employeeId).ToListAsync();
+                .Where(q => q.EmployeeId == employeeId)
+                .ProjectTo<LeaveAllocationVM>(_configurationProvider)
+                .ToListAsync();
 
             var employee = await _userManager.FindByIdAsync(employeeId);
 
             var employeeAllocationModel = _mapper.Map<EmployeeAllocationVM>(employee);
-            employeeAllocationModel.LeaveAllocations = _mapper.Map<List<LeaveAllocationVM>>(allocations);
+            employeeAllocationModel.LeaveAllocations = allocations;
 
             return employeeAllocationModel;
         }
@@ -52,6 +58,7 @@ namespace ProyectoCsharp.Repositories
         {
             var allocation = await _context.LeaveAllocation
                 .Include(q => q.LeaveType)
+                .ProjectTo<EditLeaveAllocationVM>(_configurationProvider)
                 .FirstOrDefaultAsync(q => q.Id == id);
 
             if (allocation == null)
