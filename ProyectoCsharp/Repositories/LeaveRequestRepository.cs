@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ProyectoCsharp.Contracts;
 using ProyectoCsharp.Data;
@@ -14,6 +15,7 @@ namespace ProyectoCsharp.Repositories
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AutoMapper.IConfigurationProvider _configurationProvider;
+        private readonly IEmailSender _emailSender;
         private readonly ILeaveAllocationRepository _leaveAllocationRepository;
         private readonly UserManager<Employee> _userManager;
 
@@ -21,6 +23,7 @@ namespace ProyectoCsharp.Repositories
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
             AutoMapper.IConfigurationProvider configurationProvider,
+            IEmailSender emailSender,
             ILeaveAllocationRepository leaveAllocationRepository,
             UserManager<Employee> userManager) : base(context)
         {
@@ -28,6 +31,7 @@ namespace ProyectoCsharp.Repositories
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _configurationProvider = configurationProvider;
+            _emailSender = emailSender;
             _leaveAllocationRepository = leaveAllocationRepository;
             _userManager = userManager;
         }
@@ -37,6 +41,11 @@ namespace ProyectoCsharp.Repositories
             var leaveRequest = await GetAsync(leaveRequestId);
             leaveRequest.Cancelled = true;
             await UpdateAsync(leaveRequest);
+
+            var user = await _userManager.FindByIdAsync(leaveRequest.RequestingEmployeeId);
+            
+            await _emailSender.SendEmailAsync(user.Email, "Leave request cancelled ", $"Your leave request from" + $"{leaveRequest.StartDate} to {leaveRequest.EndDate} has been cancelled successfully");
+
         }
 
         public async Task ChangeApprovalStatus(int leaveRequestId, bool approved)
@@ -54,6 +63,11 @@ namespace ProyectoCsharp.Repositories
             }
 
             await UpdateAsync(leaveRequest);
+
+            var user = await _userManager.FindByIdAsync(leaveRequest.RequestingEmployeeId);
+            var approvalStatus = approved ? "Approved" : "Declined";
+
+            await _emailSender.SendEmailAsync(user.Email, "Leave request ${approvalStatus} ", $"Your leave request from" + $"{leaveRequest.StartDate} to {leaveRequest.EndDate} has been ${approvalStatus}");
 
         }
 
@@ -74,6 +88,8 @@ namespace ProyectoCsharp.Repositories
             var leaveRequest = _mapper.Map<LeaveRequest>(model);
             leaveRequest.DateRequest = DateTime.Now;
             leaveRequest.RequestingEmployeeId = user.Id;
+
+            await _emailSender.SendEmailAsync(user.Email, "Leave request submitted succesfully", $"Your leave request from" + $"{leaveRequest.StartDate} to {leaveRequest.EndDate} has been submited for approval");
 
             await AddAsync(leaveRequest);
 

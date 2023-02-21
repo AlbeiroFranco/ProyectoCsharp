@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ProyectoCsharp.Constants;
 using ProyectoCsharp.Contracts;
 using ProyectoCsharp.Data;
+using ProyectoCsharp.Data.Migrations;
 using ProyectoCsharp.Models;
 
 namespace ProyectoCsharp.Repositories
@@ -15,12 +17,14 @@ namespace ProyectoCsharp.Repositories
         private readonly UserManager<Employee> _userManager;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly AutoMapper.IConfigurationProvider _configurationProvider;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
         public LeaveAllocationRepository(ApplicationDbContext context,
             UserManager<Employee> userManager,
             ILeaveTypeRepository leaveTypeRepository,
             AutoMapper.IConfigurationProvider configurationProvider,
+            IEmailSender emailSender,
             IMapper mapper) : base(context)
 
         {
@@ -28,6 +32,7 @@ namespace ProyectoCsharp.Repositories
             _userManager = userManager;
             _leaveTypeRepository = leaveTypeRepository;
             _configurationProvider = configurationProvider;
+            _emailSender = emailSender;
             _mapper = mapper;
         }
 
@@ -80,6 +85,7 @@ namespace ProyectoCsharp.Repositories
             var period = DateTime.Now.Year;
             var leaveType = await _leaveTypeRepository.GetAsync(leaveTypeId);
             var allocations = new List<LeaveAllocation>();
+            var employeesNewAllocations = new List<Employee>();
 
             foreach (var employee in employees)
             {
@@ -93,9 +99,15 @@ namespace ProyectoCsharp.Repositories
                     Period = period,
                     NumberOfDays = leaveType.Days
                 });
+                employeesNewAllocations.Add(employee);
             }
 
             await AddRangeAsync(allocations);
+
+            foreach (var employee in employeesNewAllocations)
+            {
+                await _emailSender.SendEmailAsync(employee.Email, "Leave allocation posted for ${period} ", $"Your {leaveType.Name} " + $"has been posted for the period of ${period}. You have been given {leaveType.Days}");
+            }
         }
 
         public async Task<bool> UpdateEmployeeAllocation(EditLeaveAllocationVM model)
@@ -108,6 +120,10 @@ namespace ProyectoCsharp.Repositories
             leaveAllocation.Period = model.Period;
             leaveAllocation.NumberOfDays = model.NumberOfDays;
             await UpdateAsync(leaveAllocation);
+
+            var user = await _userManager.FindByIdAsync(leaveAllocation.EmployeeId);
+
+            await _emailSender.SendEmailAsync(user.Email, $"Leave allocation update for {leaveAllocation.Period} ", $"Please review your leave allocations.");
 
             return true;
         }
